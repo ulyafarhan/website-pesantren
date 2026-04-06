@@ -1,0 +1,488 @@
+name: 'API Publik Web Pesantren'
+description: |-
+
+  Endpoint utama untuk Frontend. Semua request bersifat publik.
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/articles
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Daftar Artikel
+        * Mengambil berita dan artikel yang sudah diterbitkan.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/articles/{slug}'
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Detail Artikel
+        * @urlParam slug string required Slug unik artikel.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      slug:
+        custom: []
+        name: slug
+        description: 'The slug of the article.'
+        required: true
+        example: architecto
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      slug: architecto
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: |-
+          {
+              "message": "No query results for model [App\\Models\\Article]."
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/galleries
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Galeri Foto'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/facilities
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Fasilitas Pesantren'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/class-programs
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Program Kelas / Akademik'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/brochures
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Brosur & Dokumen Unduhan'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/testimonials
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Testimonial Alumni/Wali'
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":[]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/settings
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Pengaturan Website
+        * Mengambil profil, kontak, dan identitas visual pesantren.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success":true,"data":null}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/registration-periods/active
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Periode Pendaftaran Aktif
+        * Mengambil informasi gelombang pendaftaran yang sedang dibuka beserta skema formnya.
+      description: ''
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 404
+        content: '{"success":false,"message":"Pendaftaran sedang ditutup."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-cache: MISS
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/register
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+      subgroup: ''
+      subgroupDescription: ''
+      title: |-
+        Kirim Pendaftaran (PPDB)
+        * Mengirim data pendaftaran santri baru secara dinamis.
+      description: '* @bodyParam full_name string required Nama lengkap santri.'
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      full_name:
+        custom: []
+        name: full_name
+        description: 'Must not be greater than 255 characters.'
+        required: true
+        example: b
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      data:
+        custom: []
+        name: data
+        description: 'Data tambahan sesuai form_schema gelombang.'
+        required: false
+        example: []
+        type: object
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      documents:
+        custom: []
+        name: documents
+        description: 'Berkas ungguhan sesuai document_schema.'
+        required: false
+        example:
+          - null
+        type: 'file[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      full_name: b
+      data: []
+    fileParameters:
+      documents:
+        - null
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
