@@ -10,73 +10,80 @@ use App\Models\Gallery;
 use App\Models\ClassProgram;
 use App\Models\Testimonial;
 use App\Models\SiteSetting;
+use App\Models\RegistrationPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
 
 class PublicController extends Controller
 {
-    /**
-     * Mengambil pengaturan situs dengan Cache TTL 24 jam.
-     * Menggunakan 'firstOr' untuk menangani kasus jika database kosong agar tidak error.
-     */
     private function getSettings(): SiteSetting
     {
-        return Cache::remember('site_settings', now()->addDay(), fn () => 
-            SiteSetting::first() ?? new SiteSetting([
-                'name' => 'Website Pesantren',
+        return Cache::remember('site_settings', now()->addDay(), function () {
+            return SiteSetting::first() ?: new SiteSetting([
+                'name' => 'Pesantren Darussaadah',
                 'description' => 'Sistem Informasi Manajemen Pesantren'
-            ])
-        );
+            ]);
+        });
     }
 
-    /**
-     * Landing Page Utama
-     */
     public function index(): View
     {
         $settings = $this->getSettings();
 
-        // Menggunakan scope 'published' (asumsi dibuat di model) untuk clean code
-        // Eager loading 'user' (atau 'author') untuk mencegah N+1
-        $articles = Article::with('author')
-            ->published()
-            ->latest('published_at')
-            ->take(3)
-            ->get();
+        // Wajib memilih kolom spesifik (select) agar server tidak memuat data text/longtext yang besar ke memori
+        $articles = Cache::remember('home_articles', now()->addMinutes(30), fn () =>
+            Article::with('author:id,name')
+                ->select('id', 'title', 'slug', 'cover_image', 'excerpt', 'published_at', 'author_id')
+                ->published()
+                ->latest('published_at')
+                ->take(3)
+                ->get()
+        );
             
         $facilities = Cache::remember('home_facilities', now()->addHours(6), fn () => 
-            Facility::latest()->take(4)->get()
+            Facility::select('id', 'name', 'image_url', 'description')
+                ->latest()
+                ->take(4)
+                ->get()
         );
         
-        $galleries = Gallery::latest()->take(6)->get();
+        $galleries = Cache::remember('home_galleries', now()->addHours(6), fn () =>
+            Gallery::select('id', 'title', 'image_url')
+                ->latest()
+                ->take(6)
+                ->get()
+        );
             
-        $programs = ClassProgram::all();
+        $programs = Cache::remember('home_programs', now()->addDay(), fn () =>
+            ClassProgram::select('id', 'name', 'description')->get()
+        );
         
-        $testimonials = Testimonial::where('is_active', true)
-            ->latest()
-            ->take(6)
-            ->get();
+        $testimonials = Cache::remember('home_testimonials', now()->addHours(6), fn () =>
+            Testimonial::select('id', 'name', 'role', 'message')
+                ->where('is_active', true)
+                ->latest()
+                ->take(6)
+                ->get()
+        );
 
         return view('pages.home.index', compact(
-            'articles', 
-            'facilities', 
-            'galleries', 
-            'programs', 
-            'testimonials', 
-            'settings'
+            'articles', 'facilities', 'galleries', 'programs', 'testimonials', 'settings'
         ));
     }
 
-    /**
-     * Daftar Artikel Berita
-     */
+    public function about(): View
+    {
+        $settings = $this->getSettings();
+        return view('pages.about.index', compact('settings'));
+    }
+
     public function articles(): View
     {
         $settings = $this->getSettings();
 
-        // PENTING: Eager loading 'author' wajib untuk looping di Blade
-        $articles = Article::with('author')
+        $articles = Article::with('author:id,name')
+            ->select('id', 'title', 'slug', 'cover_image', 'excerpt', 'published_at', 'author_id')
             ->published()
             ->latest('published_at')
             ->paginate(9);
@@ -84,66 +91,87 @@ class PublicController extends Controller
         return view('pages.articles.index', compact('articles', 'settings'));
     }
 
-    /**
-     * Detail Artikel tunggal
-     */
     public function articleShow(string $slug): View
     {
         $settings = $this->getSettings();
 
-        $article = Article::with('author')
-            ->where('slug', $slug)
-            ->published()
-            ->firstOrFail();
+        $article = Cache::remember("article_{$slug}", now()->addHours(1), fn () =>
+            Article::with('author:id,name')
+                ->select('id', 'title', 'slug', 'cover_image', 'content', 'published_at', 'author_id') // Memuat kolom content karena ini halaman detail
+                ->where('slug', $slug)
+                ->published()
+                ->firstOrFail()
+        );
         
         return view('pages.articles.show', compact('article', 'settings'));
     }
 
-    /**
-     * Daftar Fasilitas
-     */
     public function facilities(): View
     {
         $settings = $this->getSettings();
-        $facilities = Facility::latest()->get();
+        
+        $facilities = Cache::remember('page_facilities', now()->addHours(6), fn () =>
+            Facility::select('id', 'name', 'description', 'image_url')->latest()->get()
+        );
         
         return view('pages.facilities.index', compact('facilities', 'settings'));
     }
 
-    /**
-     * Galeri Foto dengan Pagination
-     */
     public function galleries(): View
     {
         $settings = $this->getSettings();
         
-        // Pagination krusial untuk gallery agar tidak terjadi memory leak saat data ribuan
-        $galleries = Gallery::latest()->paginate(12);
+        $galleries = Gallery::select('id', 'title', 'image_url')
+            ->latest()
+            ->paginate(12);
         
         return view('pages.galleries.index', compact('galleries', 'settings'));
     }
 
-    /**
-     * Program Belajar / Kelas
-     */
     public function programs(): View
     {
         $settings = $this->getSettings();
-        $programs = ClassProgram::latest()->get();
+        
+        $programs = Cache::remember('page_programs', now()->addDay(), fn () =>
+            ClassProgram::select('id', 'name', 'description')->latest()->get()
+        );
         
         return view('pages.programs.index', compact('programs', 'settings'));
     }
 
-    /**
-     * Testimonial Lengkap
-     */
     public function testimonials(): View
     {
         $settings = $this->getSettings();
-        $testimonials = Testimonial::where('is_active', true)
+        
+        $testimonials = Testimonial::select('id', 'name', 'role', 'message')
+            ->where('is_active', true)
             ->latest()
             ->paginate(12);
         
         return view('pages.testimonials.index', compact('testimonials', 'settings'));
+    }
+
+    public function ppdbRegister(): View
+    {
+        $settings = $this->getSettings();
+        
+        $period = Cache::remember('active_registration_period', now()->addHours(1), fn () =>
+            RegistrationPeriod::select('id', 'name', 'start_date', 'end_date', 'is_active')
+                ->where('is_active', true)
+                ->firstOrFail()
+        );
+        
+        return view('pages.ppdb.register', compact('period', 'settings'));
+    }
+
+    public function ppdbStatus(): View
+    {
+        $settings = $this->getSettings();
+        return view('pages.ppdb.check-status', compact('settings'));
+    }
+
+    public function ppdbSuccess(): View
+    {
+        return view('pages.ppdb.success');
     }
 }

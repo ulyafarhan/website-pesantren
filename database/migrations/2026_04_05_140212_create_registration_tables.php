@@ -16,7 +16,7 @@ return new class extends Migration
             $table->date('end_date')->nullable();
             $table->integer('quota')->default(0); // Kuota santri
             $table->decimal('registration_fee', 12, 2)->default(0); // Biaya pendaftaran
-            $table->boolean('is_active')->default(false);
+            $table->boolean('is_active')->default(false)->index(); // Menandai periode yang sedang aktif
             
             // Schema dinamis untuk isian tambahan tiap tahun
             $table->json('form_schema')->nullable(); 

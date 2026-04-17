@@ -19,7 +19,7 @@
                 @foreach($facilities ?? [] as $facility)
                     <div class="text-center group">
                         <div class="overflow-hidden rounded-2xl mb-6 shadow-sm">
-                            <img src="{{ asset('storage/' . $facility->image_url) }}" alt="{{ $facility->name }}" onerror="this.src='https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80';" class="w-full h-56 object-cover group-hover:scale-105 transition duration-500">
+                            <img src="{{ asset('storage/' . $facility->image_url) }}" loading="lazy" alt="{{ $facility->name }}" onerror="this.src='https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=600&q=80';" class="w-full h-56 object-cover group-hover:scale-105 transition duration-500">
                         </div>
                         <h3 class="font-bold text-gray-900 text-xl mb-3">{{ $facility->name }}</h3>
                         <p class="text-sm text-gray-600 leading-relaxed">{{ $facility->description }}</p>

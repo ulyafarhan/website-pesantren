@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->string('role', 100);
             $table->text('message');
-            $table->boolean('is_active')->default(true);
+            $table->boolean('is_active')->default(true)->index();
             $table->timestamps();
         });
     }

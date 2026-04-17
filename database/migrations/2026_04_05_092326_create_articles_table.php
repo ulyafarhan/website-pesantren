@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('cover_image', 255)->nullable();
             $table->boolean('is_published')->default(false);
             $table->foreignUuid('author_id')->constrained('users')->restrictOnDelete();
-            $table->timestamp('published_at')->nullable();
+            $table->timestamp('published_at')->nullable()->index();
             $table->timestamps();
 
             $table->index(['is_published', 'published_at']);

@@ -8,8 +8,11 @@
 
     <div class="relative z-10 max-w-7xl mx-auto w-full px-6 pt-20">
         <h1 class="text-6xl md:text-8xl font-extrabold text-white drop-shadow-lg mb-4 tracking-tight">
-            {{ explode(' ', $settings->site_name ?? 'UKM PTQ')[0] }} <br>
-            {{ implode(' ', array_slice(explode(' ', $settings->site_name ?? 'UKM PTQ'), 1)) }}
+            @php
+                $nameParts = explode(' ', $settings->site_name ?? 'Pesantren Darussaadah');
+            @endphp
+            {{ $nameParts[0] }} <br>
+            {{ implode(' ', array_slice($nameParts, 1)) }}
         </h1>
         
         <p class="text-xl md:text-3xl font-medium text-emerald-100 max-w-3xl leading-snug mb-10 drop-shadow-md">
@@ -18,7 +21,7 @@
         
         <div class="flex flex-wrap gap-4 mt-4">
             <x-ui.button variant="secondary" href="#about">Tentang Kami</x-ui.button>
-            <x-ui.button variant="white-outline" href="#berita">Info Terbaru</x-ui.button>
+            <x-ui.button variant="white-outline" href="{{ route('articles.index') }}">Info Terbaru</x-ui.button>
         </div>
     </div>
 </header>

@@ -28,6 +28,7 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->login()
             ->colors([
                 'primary' => Color::Emerald,
@@ -36,7 +37,10 @@ class AdminPanelProvider extends PanelProvider
                 'success' => Color::Emerald,
                 'warning' => Color::Orange,
             ])
-            ->brandName('Panel Pesantren')
+            ->brandName('Darussaadah')
+            ->brandLogo(fn () => view('filament.admin.logo'))
+            ->brandLogoHeight('3rem')
+            ->favicon(asset('images/logo-darussaadah.png'))
             ->font('Poppins')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')

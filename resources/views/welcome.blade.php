@@ -37,7 +37,7 @@
 
     <header class="relative h-screen min-h-[600px] flex items-center">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1920&q=80" alt="Hero Background" class="w-full h-full object-cover">
+            <img src="{{ asset('images/hero.jpg') }}" loading="lazy" alt="Hero Background" class="w-full h-full object-cover">
             <div class="absolute inset-0 bg-gradient-to-r from-emerald-950/90 to-emerald-900/60"></div>
         </div>
 
@@ -98,7 +98,7 @@
             </div>
             <div class="w-full lg:w-1/2 relative">
                 <div class="absolute -top-4 -left-4 w-full h-full bg-emerald-100 rounded-3xl -z-10"></div>
-                <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80" alt="Tentang Kami" class="rounded-3xl shadow-lg w-full object-cover h-[400px]">
+                <img src="{{ asset('images/about.jpg') }}" loading="lazy" alt="Tentang Kami" class="rounded-3xl shadow-lg w-full object-cover h-[400px]">
             </div>
         </div>
     </section>
@@ -139,8 +139,9 @@
                 @foreach($articles as $article)
                     <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col">
                         <img 
-                            src="{{ $article->cover_image }}"
+                            src="{{ asset($article->cover_image) }}"
                             alt="{{ $article->title }}" 
+                            loading="lazy"
                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1585828068970-8bf19edbbac2?auto=format&fit=crop&w=600&q=80';"
                             class="w-full h-52 object-cover"
                         >
@@ -174,7 +175,7 @@
             <div class="w-full lg:w-2/3 order-1 lg:order-2 grid grid-cols-2 md:grid-cols-3 gap-4">
                 @foreach($galleries->take(6) as $index => $gallery)
                     <div class="rounded-xl overflow-hidden h-40 md:h-48 shadow-sm">
-                        <img src="{{ asset('storage/' . $gallery->image_url) }}" alt="{{ $gallery->title }}" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';" class="w-full h-full object-cover hover:scale-110 transition duration-500">
+                        <img src="{{ asset('storage/' . $gallery->image_url) }}" alt="{{ $gallery->title }}" lazy="loading" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';" class="w-full h-full object-cover hover:scale-110 transition duration-500">
                     </div>
                 @endforeach
             </div>
