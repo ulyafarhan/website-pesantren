@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Middleware;
 
 use Closure;
@@ -10,39 +12,63 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FullPageCache
 {
+    /**
+     * Handle an incoming request.
+     * * Default TTL: 24 Jam (86400 detik)
+     */
     public function handle(Request $request, Closure $next, int $ttl = 86400): Response
     {
+        // 1. JANGAN Cache rute dokumentasi API atau Scribe
         if ($request->is('docs*') || $request->routeIs('scribe.*')) {
             return $next($request);
         }
 
+        // 2. HANYA Cache method GET
         if (! $request->isMethod('GET')) {
             return $next($request);
         }
 
-        // PENTING: Pengecekan admin* tidak boleh dibungkus Auth::check(). 
-        // Jika dibungkus, halaman login (/admin/login) akan ikut tercache oleh guest, 
-        // sehingga CSRF Token menjadi statis/basi dan menyebabkan infinite login loop (419 Page Expired).
+        // 3. JANGAN Cache jika user sedang login (Admin/Filament) atau request Livewire
         if (Auth::check() || $request->is('admin*') || $request->is('livewire*')) {
             return $next($request);
         }
 
-        $key = 'page_' . md5($request->fullUrl());
-
-        if (Cache::has($key)) {
-            $cachedResponse = response(Cache::get($key));
-            $cachedResponse->headers->set('X-Cache', 'HIT');
-            return $cachedResponse;
+        // 4. JANGAN Cache jika request ke folder storage (Mencegah loop 404 gambar)
+        if ($request->is('storage/*')) {
+            return $next($request);
         }
 
+        // Generate Key unik berdasarkan URL lengkap (termasuk query string)
+        $key = 'page_cache_' . md5($request->fullUrl());
+
+        // 5. CEK CACHE: Jika ada, langsung kembalikan respons statis
+        if (Cache::has($key)) {
+            $cachedContent = Cache::get($key);
+            
+            return response($cachedContent)
+                ->header('Content-Type', 'text/html')
+                ->header('X-Cache', 'HIT');
+        }
+
+        // 6. LANJUTKAN REQUEST: Ambil respons dari server
         $response = $next($request);
 
-        if ($response->getStatusCode() === 200 && method_exists($response, 'getContent')) {
+        // 7. VALIDASI SEBELUM SIMPAN: Hanya cache jika HTTP 200, bukan AJAX, dan respons sukses
+        if ($this->shouldCache($request, $response)) {
             Cache::put($key, $response->getContent(), $ttl);
+            $response->headers->set('X-Cache', 'MISS');
         }
 
-        $response->headers->set('X-Cache', 'MISS');
-
         return $response;
+    }
+
+    /**
+     * Menentukan apakah respons layak untuk disimpan di cache.
+     */
+    private function shouldCache(Request $request, Response $response): bool
+    {
+        return $response->getStatusCode() === 200 
+            && ! $request->ajax() 
+            && method_exists($response, 'getContent');
     }
 }

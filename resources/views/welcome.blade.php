@@ -139,7 +139,7 @@
                 @foreach($articles as $article)
                     <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col">
                         <img 
-                            src="{{ asset('storage/' . $article->cover_image) }}" 
+                            src="{{ $article->cover_image }}"
                             alt="{{ $article->title }}" 
                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1585828068970-8bf19edbbac2?auto=format&fit=crop&w=600&q=80';"
                             class="w-full h-52 object-cover"

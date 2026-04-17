@@ -8,7 +8,7 @@
 
         <article class="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden mt-8">
             <div class="h-[300px] md:h-[450px] w-full relative">
-                <img src="{{ asset('storage/' . $article->cover_image) }}" alt="{{ $article->title }}" 
+                <img src="{{ $article->cover_image }}" alt="{{ $article->title }}" 
                      onerror="this.src='https://images.unsplash.com/photo-1585828068970-8bf19edbbac2?w=1000&q=80';"
                      class="w-full h-full object-cover">
             </div>
