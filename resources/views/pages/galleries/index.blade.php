@@ -6,18 +6,39 @@
             <p class="text-gray-500 max-w-2xl mx-auto">Potret kegiatan santri, fasilitas, dan momen-momen berharga di lingkungan kami.</p>
         </div>
 
-        <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+        {{-- Menggunakan Grid agar tinggi kartu seragam --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             @foreach($galleries as $gallery)
-                <div class="break-inside-avoid relative group rounded-2xl overflow-hidden shadow-sm">
-                    <img src="{{ asset('storage/' . $gallery->image_url) }}" loading="lazy" alt="{{ $gallery->title }}" class="w-full h-auto object-cover transition duration-500 group-hover:scale-110">
-                    <div class="absolute inset-0 bg-gradient-to-t from-emerald-950/90 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition duration-300 flex flex-col justify-end p-6">
-                        <h3 class="text-white font-bold text-lg">{{ $gallery->title }}</h3>
+                <div class="group relative m-0 flex h-72 w-full rounded-xl shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:shadow-emerald-600/5 overflow-hidden">
+                    {{-- Container Gambar --}}
+                    <div class="z-10 h-full w-full overflow-hidden rounded-xl border border-gray-200 opacity-90 transition duration-300 ease-in-out group-hover:opacity-100 white:border-white-700">
+                        <img src="{{ asset('storage/' . $gallery->image_url) }}" 
+                             class="block h-full w-full scale-100 transform object-cover object-center transition duration-500 group-hover:scale-110" 
+                             alt="{{ $gallery->title }}"
+                             onerror="this.src='https://placehold.co/600x400?text=Gambar+Tidak+Ada';" />
+                        
+                        {{-- Overlay Gelap agar teks terbaca --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300"></div>
+                    </div>
+
+                    {{-- Konten Teks --}}
+                    <div class="absolute bottom-0 z-20 m-0 pb-6 ps-6 transition duration-300 ease-in-out group-hover:-translate-y-2 group-hover:translate-x-2">
+                        <h1 class="font-sans text-xl font-bold text-white drop-shadow-lg">
+                            {{ $gallery->title }}
+                        </h1>
                         @if($gallery->description)
-                            <p class="text-emerald-100 text-sm line-clamp-2 mt-1">{{ $gallery->description }}</p>
+                            <p class="text-sm font-light text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100 line-clamp-1 pr-4">
+                                {{ $gallery->description }}
+                            </p>
                         @endif
                     </div>
                 </div>
             @endforeach
+        </div>
+        
+        {{-- Pagination --}}
+        <div class="mt-12">
+            {{ $galleries->links() }}
         </div>
     </div>
 </x-layouts.app>

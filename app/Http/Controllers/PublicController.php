@@ -14,12 +14,13 @@ use App\Models\RegistrationPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\View\View;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PublicController extends Controller
 {
     private function getSettings(): SiteSetting
     {
-        return Cache::remember('site_settings', now()->addDay(), function () {
+        return Cache::rememberForever('site_settings', function () {
             return SiteSetting::first() ?: new SiteSetting([
                 'name' => 'Pesantren Darussaadah',
                 'description' => 'Sistem Informasi Manajemen Pesantren'
@@ -31,35 +32,34 @@ class PublicController extends Controller
     {
         $settings = $this->getSettings();
 
-        // Wajib memilih kolom spesifik (select) agar server tidak memuat data text/longtext yang besar ke memori
-        $articles = Cache::remember('home_articles', now()->addMinutes(30), fn () =>
+        $articles = Cache::remember('home_articles', now()->addHours(1), fn () =>
             Article::with('author:id,name')
                 ->select('id', 'title', 'slug', 'cover_image', 'excerpt', 'published_at', 'author_id')
-                ->published()
+                ->where('is_published', true)
                 ->latest('published_at')
                 ->take(3)
                 ->get()
         );
             
-        $facilities = Cache::remember('home_facilities', now()->addHours(6), fn () => 
+        $facilities = Cache::remember('home_facilities', now()->addHours(12), fn () => 
             Facility::select('id', 'name', 'image_url', 'description')
                 ->latest()
                 ->take(4)
                 ->get()
         );
         
-        $galleries = Cache::remember('home_galleries', now()->addHours(6), fn () =>
+        $galleries = Cache::remember('home_galleries', now()->addHours(12), fn () =>
             Gallery::select('id', 'title', 'image_url')
                 ->latest()
                 ->take(6)
                 ->get()
         );
             
-        $programs = Cache::remember('home_programs', now()->addDay(), fn () =>
+        $programs = Cache::rememberForever('home_programs', fn () =>
             ClassProgram::select('id', 'name', 'description')->get()
         );
         
-        $testimonials = Cache::remember('home_testimonials', now()->addHours(6), fn () =>
+        $testimonials = Cache::remember('home_testimonials', now()->addHours(12), fn () =>
             Testimonial::select('id', 'name', 'role', 'message')
                 ->where('is_active', true)
                 ->latest()
@@ -74,8 +74,7 @@ class PublicController extends Controller
 
     public function about(): View
     {
-        $settings = $this->getSettings();
-        return view('pages.about.index', compact('settings'));
+        return view('pages.about.index', ['settings' => $this->getSettings()]);
     }
 
     public function articles(): View
@@ -84,9 +83,9 @@ class PublicController extends Controller
 
         $articles = Article::with('author:id,name')
             ->select('id', 'title', 'slug', 'cover_image', 'excerpt', 'published_at', 'author_id')
-            ->published()
+            ->where('is_published', true)
             ->latest('published_at')
-            ->paginate(9);
+            ->simplePaginate(9);
         
         return view('pages.articles.index', compact('articles', 'settings'));
     }
@@ -95,13 +94,17 @@ class PublicController extends Controller
     {
         $settings = $this->getSettings();
 
-        $article = Cache::remember("article_{$slug}", now()->addHours(1), fn () =>
-            Article::with('author:id,name')
-                ->select('id', 'title', 'slug', 'cover_image', 'content', 'published_at', 'author_id') // Memuat kolom content karena ini halaman detail
+        $article = Cache::remember("article_{$slug}", now()->addHours(1), function () use ($slug) {
+            return Article::with('author:id,name')
+                ->select('id', 'title', 'slug', 'cover_image', 'content', 'published_at', 'author_id')
                 ->where('slug', $slug)
-                ->published()
-                ->firstOrFail()
-        );
+                ->where('is_published', true)
+                ->first();
+        });
+        
+        if (!$article) {
+            throw new NotFoundHttpException();
+        }
         
         return view('pages.articles.show', compact('article', 'settings'));
     }
@@ -110,7 +113,7 @@ class PublicController extends Controller
     {
         $settings = $this->getSettings();
         
-        $facilities = Cache::remember('page_facilities', now()->addHours(6), fn () =>
+        $facilities = Cache::remember('page_facilities', now()->addHours(12), fn () =>
             Facility::select('id', 'name', 'description', 'image_url')->latest()->get()
         );
         
@@ -123,7 +126,7 @@ class PublicController extends Controller
         
         $galleries = Gallery::select('id', 'title', 'image_url')
             ->latest()
-            ->paginate(12);
+            ->simplePaginate(12);
         
         return view('pages.galleries.index', compact('galleries', 'settings'));
     }
@@ -132,7 +135,7 @@ class PublicController extends Controller
     {
         $settings = $this->getSettings();
         
-        $programs = Cache::remember('page_programs', now()->addDay(), fn () =>
+        $programs = Cache::rememberForever('page_programs', fn () =>
             ClassProgram::select('id', 'name', 'description')->latest()->get()
         );
         
@@ -146,7 +149,7 @@ class PublicController extends Controller
         $testimonials = Testimonial::select('id', 'name', 'role', 'message')
             ->where('is_active', true)
             ->latest()
-            ->paginate(12);
+            ->simplePaginate(12);
         
         return view('pages.testimonials.index', compact('testimonials', 'settings'));
     }
@@ -166,8 +169,7 @@ class PublicController extends Controller
 
     public function ppdbStatus(): View
     {
-        $settings = $this->getSettings();
-        return view('pages.ppdb.check-status', compact('settings'));
+        return view('pages.ppdb.check-status', ['settings' => $this->getSettings()]);
     }
 
     public function ppdbSuccess(): View

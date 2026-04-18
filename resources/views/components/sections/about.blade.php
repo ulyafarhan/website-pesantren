@@ -13,8 +13,8 @@
             </p>
         </div>
         <div class="w-full lg:w-1/2 relative">
-            <div class="absolute -top-4 -left-4 w-full h-full bg-emerald-100 rounded-3xl -z-10"></div>
-            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80" alt="Tentang Kami" class="rounded-3xl shadow-lg w-full object-cover h-[400px]">
+            <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80" alt="Tentang Kami" 
+                class="rounded-xl shadow-lg w-full object-cover h-[400px]">
         </div>
     </div>
 </section>

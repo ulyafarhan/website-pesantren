@@ -3,22 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    {{-- Variabel settings diberikan fallback agar tidak error jika database kosong --}}
     <meta name="description" content="{{ $settings->site_description ?? 'Sistem Informasi Pesantren Darussaadah' }}">
     <meta name="og:image" content="{{ asset('images/logo-darussaadah.png') }}">
 
     <title>{{ $title ?? 'Beranda' }} - {{ $settings->site_name ?? 'Pesantren Darussaadah' }}</title>
 
-    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    {{-- Assets & Scripts --}}
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/intersect@3.x.x/dist/cdn.min.js"></script>
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     
-    {{-- Alpine.js dikelola oleh Vite di resources/js/app.js, 
-         tapi jika Anda ingin manual via CDN, pastikan hanya ada satu --}}
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
     <style>
@@ -34,20 +30,15 @@
         }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 antialiased bg-topography flex flex-col min-h-screen">
+<body class="font-sans antialiased text-gray-900 bg-slate-50 flex flex-col min-h-screen">
 
-    {{-- Kirim data settings ke navbar --}}
     <x-navigations.navbar :settings="$settings" />
 
-    {{-- Logika padding top: Jika di halaman home (transparan), tidak perlu padding. 
-         Jika di halaman lain, berikan padding agar konten tidak tertutup navbar fixed --}}
-    <main id="swup" class="transition-fade flex-grow {{ request()->routeIs('home') ? '' : 'pt-20 lg:pt-28' }}">
+    <main class="flex-grow {{ request()->routeIs('home') ? '' : 'pt-32' }}">
         {{ $slot }}
     </main>
 
-    {{-- Footer --}}
     <x-navigations.footer :settings="$settings" />
 
-    {{-- Bersihkan Cache Blade otomatis jika ada perubahan --}}
 </body>
 </html>

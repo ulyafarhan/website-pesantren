@@ -7,68 +7,44 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Symfony\Component\HttpFoundation\Response;
 
 class FullPageCache
 {
     /**
      * Handle an incoming request.
-     * * Default TTL: 24 Jam (86400 detik)
+     * * PERUBAHAN ARSITEKTUR: Middleware ini tidak lagi membebani database/disk lokal
+     * untuk menyimpan HTML. Sebaliknya, ia menyuntikkan HTTP Cache-Control Headers.
+     * * Di produksi (Fase 5.4), Cloudflare Edge akan membaca header ini dan menahan trafik
+     * sebelum mencapai server cPanel Anda. Ini adalah inti dari "Highly Available".
      */
     public function handle(Request $request, Closure $next, int $ttl = 86400): Response
     {
-        // 1. JANGAN Cache rute dokumentasi API atau Scribe
-        if ($request->is('docs*') || $request->routeIs('scribe.*')) {
-            return $next($request);
-        }
-
-        // 2. HANYA Cache method GET
-        if (! $request->isMethod('GET')) {
-            return $next($request);
-        }
-
-        // 3. JANGAN Cache jika user sedang login (Admin/Filament) atau request Livewire
-        if (Auth::check() || $request->is('admin*') || $request->is('livewire*')) {
-            return $next($request);
-        }
-
-        // 4. JANGAN Cache jika request ke folder storage (Mencegah loop 404 gambar)
-        if ($request->is('storage/*')) {
-            return $next($request);
-        }
-
-        // Generate Key unik berdasarkan URL lengkap (termasuk query string)
-        $key = 'page_cache_' . md5($request->fullUrl());
-
-        // 5. CEK CACHE: Jika ada, langsung kembalikan respons statis
-        if (Cache::has($key)) {
-            $cachedContent = Cache::get($key);
-            
-            return response($cachedContent)
-                ->header('Content-Type', 'text/html')
-                ->header('X-Cache', 'HIT');
-        }
-
-        // 6. LANJUTKAN REQUEST: Ambil respons dari server
+        // Lanjutkan request untuk mengambil respons
         $response = $next($request);
 
-        // 7. VALIDASI SEBELUM SIMPAN: Hanya cache jika HTTP 200, bukan AJAX, dan respons sukses
-        if ($this->shouldCache($request, $response)) {
-            Cache::put($key, $response->getContent(), $ttl);
-            $response->headers->set('X-Cache', 'MISS');
+        // Abaikan request jika bukan GET, AJAX, atau jika tidak sukses
+        if (!$request->isMethod('GET') || $request->ajax() || $response->getStatusCode() !== 200) {
+            return $response;
         }
 
-        return $response;
-    }
+        // Jangan pernah melakukan cache pada halaman yang sensitif (Formulir PPDB, Kontak, Admin, Scribe)
+        if ($request->is('ppdb*') || $request->is('contact*') || $request->is('admin*') || $request->is('livewire*') || $request->is('docs*') || $request->routeIs('scribe.*')) {
+            // Instruksikan proxy (seperti Cloudflare) dan browser untuk SELALU meminta versi terbaru
+            $response->headers->set('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0');
+            $response->headers->set('Pragma', 'no-cache');
+            return $response;
+        }
 
-    /**
-     * Menentukan apakah respons layak untuk disimpan di cache.
-     */
-    private function shouldCache(Request $request, Response $response): bool
-    {
-        return $response->getStatusCode() === 200 
-            && ! $request->ajax() 
-            && method_exists($response, 'getContent');
+        // Jangan cache jika pengguna sedang login
+        if (Auth::check()) {
+            return $response;
+        }
+
+        // JIKA HALAMAN AMAN DARI FORMULIR (Artikel, Galeri, Profil):
+        // Suntikkan header Cache-Control agar Cloudflare menangkapnya (Fase 5 Project Brief)
+        $response->headers->set('Cache-Control', "public, max-age={$ttl}");
+
+        return $response;
     }
 }
