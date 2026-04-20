@@ -1,0 +1,560 @@
+name: 'API Publik Web Pesantren'
+description: |-
+
+  Endpoint utama untuk Frontend. Semua request bersifat publik.
+  Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+endpoints:
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/articles
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Daftar Artikel'
+      description: |-
+        Mengambil berita dan artikel yang sudah diterbitkan.
+        Response di-cache selama 1 jam.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": [{"id": "uuid", "title": "Judul", "slug": "judul", "excerpt": "...", "published_at": "2026-01-01T00:00:00Z"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: 'api/v1/articles/{slug}'
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Detail Artikel'
+      description: |-
+        Mengambil konten lengkap sebuah artikel berdasarkan slug.
+        Response di-cache selama 1 jam per-slug.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      slug:
+        custom: []
+        name: slug
+        description: 'Slug unik artikel.'
+        required: true
+        example: sejarah-pesantren
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+    cleanUrlParameters:
+      slug: sejarah-pesantren
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": {"id": "uuid", "title": "Judul", "content": "..."}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 404
+        content: '{"message": "Not Found"}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/galleries
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Galeri Foto'
+      description: |-
+        Mengambil seluruh galeri foto pesantren.
+        Response di-cache selama 12 jam.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": [{"id": "uuid", "title": "Judul", "image_url": "path"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/facilities
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Fasilitas Pesantren'
+      description: |-
+        Mengambil daftar fasilitas yang tersedia.
+        Response di-cache selama 12 jam.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": [{"id": "uuid", "name": "Masjid", "description": "..."}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/class-programs
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Program Kelas / Akademik'
+      description: |-
+        Mengambil daftar program kelas pesantren.
+        Response di-cache secara permanen (invalidated oleh admin saat update).
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": [{"id": "uuid", "name": "Tahfidz", "description": "..."}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/brochures
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Brosur & Dokumen Unduhan'
+      description: |-
+        Mengambil daftar brosur dan file unduhan.
+        Response di-cache selama 12 jam.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": [{"id": "uuid", "title": "Brosur 2026", "file_url": "path"}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/testimonials
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Testimonial Alumni/Wali'
+      description: |-
+        Mengambil testimonial yang aktif.
+        Response di-cache selama 12 jam.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": [{"id": "uuid", "name": "Ahmad", "role": "Alumni", "message": "..."}]}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/settings
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Pengaturan Website'
+      description: |-
+        Mengambil profil, kontak, dan identitas visual pesantren.
+        Response di-cache secara permanen (invalidated oleh admin saat update).
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": {"site_name": "Pesantren", "email": "info@pesantren.id"}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - GET
+    uri: api/v1/registration-periods/active
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Periode Pendaftaran Aktif'
+      description: |-
+        Mengambil informasi gelombang pendaftaran yang sedang dibuka beserta skema formnya.
+        Response di-cache selama 1 jam.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        custom: []
+        status: 200
+        content: '{"success": true, "data": {"id": "uuid", "name": "Gelombang 1", "is_active": true}}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 404
+        content: '{"success": false, "message": "Pendaftaran sedang ditutup."}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+  -
+    custom: []
+    httpMethods:
+      - POST
+    uri: api/v1/register
+    metadata:
+      custom: []
+      groupName: 'API Publik Web Pesantren'
+      groupDescription: |-
+
+        Endpoint utama untuk Frontend. Semua request bersifat publik.
+        Rate limit: 60 request/menit (GET), 5 request/menit (POST register).
+      subgroup: ''
+      subgroupDescription: ''
+      title: 'Kirim Pendaftaran (PPDB)'
+      description: |-
+        Mengirim data pendaftaran santri baru secara dinamis.
+        Rate limit: 5 request per menit.
+      authenticated: false
+      deprecated: false
+    headers:
+      Content-Type: multipart/form-data
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      full_name:
+        custom: []
+        name: full_name
+        description: 'Nama lengkap santri.'
+        required: true
+        example: 'Muhammad Ulya Farhan'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      nik:
+        custom: []
+        name: nik
+        description: 'NIK 16 digit.'
+        required: true
+        example: '1234567890123456'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      gender:
+        custom: []
+        name: gender
+        description: 'Jenis kelamin (L/P).'
+        required: true
+        example: L
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      place_of_birth:
+        custom: []
+        name: place_of_birth
+        description: 'Tempat lahir.'
+        required: true
+        example: Sigli
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      date_of_birth:
+        custom: []
+        name: date_of_birth
+        description: 'Tanggal lahir (YYYY-MM-DD).'
+        required: true
+        example: '2010-05-15'
+        type: date
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      phone_number:
+        custom: []
+        name: phone_number
+        description: 'Nomor WA orang tua.'
+        required: true
+        example: '08123456789'
+        type: string
+        enumValues: []
+        exampleWasSpecified: true
+        nullable: false
+        deprecated: false
+      data:
+        custom: []
+        name: data
+        description: 'Data tambahan sesuai form_schema gelombang.'
+        required: false
+        example: []
+        type: object
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+      documents:
+        custom: []
+        name: documents
+        description: 'Berkas unggahan sesuai document_schema (JPG/PNG/PDF, maks 2MB).'
+        required: false
+        example:
+          - null
+        type: 'file[]'
+        enumValues: []
+        exampleWasSpecified: false
+        nullable: false
+        deprecated: false
+    cleanBodyParameters:
+      full_name: 'Muhammad Ulya Farhan'
+      nik: '1234567890123456'
+      gender: L
+      place_of_birth: Sigli
+      date_of_birth: '2010-05-15'
+      phone_number: '08123456789'
+      data: []
+    fileParameters:
+      documents:
+        - null
+    responses:
+      -
+        custom: []
+        status: 201
+        content: '{"success": true, "message": "Pendaftaran berhasil dikirim.", "registration_number": "REG-20260419ABCD"}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 404
+        content: '{"success": false, "message": "Maaf, pendaftaran sudah ditutup."}'
+        headers: []
+        description: ''
+      -
+        custom: []
+        status: 422
+        content: '{"success": false, "errors": {"full_name": ["Nama wajib diisi."]}}'
+        headers: []
+        description: ''
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
