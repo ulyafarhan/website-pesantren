@@ -11,13 +11,13 @@
             <p class="text-gray-600 mb-8">Terima kasih telah mendaftar. Simpan nomor registrasi di bawah ini — Anda akan memerlukannya untuk mengecek status seleksi.</p>
             
             {{-- Nomor Registrasi --}}
-            <div class="bg-emerald-900 text-amber-400 py-4 px-6 rounded-2xl mb-4 shadow-lg inline-block border-2 border-emerald-800">
+            <div class="bg-emerald-900 text-amber-400 py-4 px-6 rounded mb-4 shadow-lg inline-block border-2 border-emerald-800">
                 <p class="text-xs text-emerald-300 font-bold uppercase tracking-widest mb-1">Nomor Registrasi Anda</p>
                 <p class="text-3xl font-mono font-bold tracking-wider" id="regNumber">REG-LOADING</p>
             </div>
 
             {{-- Info cara cek --}}
-            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 mb-8 text-sm text-amber-800">
+            <div class="bg-amber-50 border border-amber-200 rounded p-4 mb-8 text-sm text-amber-800">
                 <p class="font-bold mb-1">📋 Cara Mengecek Status Seleksi:</p>
                 <p>Kunjungi halaman <strong>Cek Status</strong> dan masukkan nomor registrasi di atas. Status Anda akan diperbarui oleh panitia setelah verifikasi berkas.</p>
             </div>
@@ -26,7 +26,7 @@
                 {{-- Tombol utama: Cek Status --}}
                 <a id="btnCekStatus"
                    href="{{ route('ppdb.check') }}"
-                   class="inline-block w-full bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-2xl font-extrabold text-sm uppercase tracking-wider shadow-lg shadow-emerald-200 transition transform hover:-translate-y-0.5">
+                   class="inline-block w-full bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded font-extrabold text-sm uppercase tracking-wider shadow-lg shadow-emerald-200 transition transform hover:-translate-y-0.5">
                     🔍 Cek Status Pendaftaran
                 </a>
                 <x-ui.button variant="white-outline" href="{{ route('home') }}">Kembali ke Beranda</x-ui.button>

@@ -2,7 +2,7 @@
 
 <section id="projects" class="py-24 px-6 max-w-7xl mx-auto">
     <div class="flex flex-col lg:flex-row gap-12 items-center">
-        <div class="w-full lg:w-1/3 order-2 lg:order-1 bg-emerald-50 p-10 rounded-xl border border-emerald-100">
+        <div class="w-full lg:w-1/3 order-2 lg:order-1 bg-emerald-50 p-10 rounded border border-emerald-100">
             <p class="text-emerald-600 font-bold uppercase tracking-widest text-xs mb-3">GALERI KEGIATAN</p>
             <h2 class="text-3xl font-extrabold text-gray-900 mb-6 leading-tight">Puncak Kreasi <br><span class="text-emerald-600">Lingkungan Kami</span></h2>
             <p class="text-gray-600 text-sm mb-8 leading-relaxed">
@@ -15,7 +15,7 @@
         
         <div class="w-full lg:w-2/3 order-1 lg:order-2 grid grid-cols-1 sm:grid-cols-2 gap-4">
             @foreach($galleries->take(4) as $gallery)
-                <div class="group relative flex h-60 w-full rounded-2xl shadow-md overflow-hidden">
+                <div class="group relative flex h-60 w-full rounded shadow-md overflow-hidden">
                     <div class="h-full w-full transition duration-300 ease-in-out">
                         <img src="{{ asset('storage/' . $gallery->image_url) }}" 
                              alt="{{ $gallery->title }}" 

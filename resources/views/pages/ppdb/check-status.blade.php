@@ -24,7 +24,7 @@
                         <h3 class="text-lg font-extrabold text-gray-900">Hasil Pencarian</h3>
                     </div>
                     
-                    <div class="space-y-4 text-sm bg-gray-50 p-6 rounded-2xl">
+                    <div class="space-y-4 text-sm bg-gray-50 p-6 rounded">
                         <div class="flex justify-between items-center border-b border-gray-200 pb-3">
                             <span class="text-gray-500 font-medium">Nama Lengkap</span>
                             <span class="font-bold text-gray-900">{{ $registration->full_name }}</span>

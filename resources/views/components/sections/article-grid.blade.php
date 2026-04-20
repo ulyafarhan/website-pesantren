@@ -9,7 +9,7 @@
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
             @foreach($articles as $article)
-                <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col">
+                <div class="bg-gray-50 rounded overflow-hidden shadow-sm hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col">
                     <img 
                         src="{{ $article->cover_image }}" 
                         alt="{{ $article->title }}" 

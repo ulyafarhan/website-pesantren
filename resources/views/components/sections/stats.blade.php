@@ -20,7 +20,7 @@
             }
          }">
     
-    <div class="bg-emerald-800 rounded-xl p-10 lg:p-14 flex flex-col lg:flex-row justify-between items-center text-white shadow-xl relative overflow-hidden">
+    <div class="bg-emerald-800 rounded p-10 lg:p-14 flex flex-col lg:flex-row justify-between items-center text-white shadow-xl relative overflow-hidden">
         {{-- Pola Background --}}
         <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
         

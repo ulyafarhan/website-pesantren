@@ -10,6 +10,6 @@
     $theme = $types[$type] ?? $types['info'];
 @endphp
 
-<div {{ $attributes->merge(['class' => "p-4 rounded-xl border $theme text-sm leading-relaxed"]) }}>
+<div {{ $attributes->merge(['class' => "p-4 rounded border $theme text-sm leading-relaxed"]) }}>
     {{ $slot }}
 </div>

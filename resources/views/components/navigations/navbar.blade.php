@@ -17,7 +17,7 @@
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center text-white">
             
             <a href="{{ route('home') }}" wire:navigate class="flex items-center gap-3 drop-shadow-md hover:scale-105 transition-transform duration-300 z-50">
-                <div class="bg-transparent p-1 rounded-lg shadow-inner">
+                <div class="bg-transparent p-1 rounded shadow-inner">
                     <img class="h-10 w-auto object-contain" 
                          src="{{ asset('images/logo-darussaadah.png') }}" 
                          alt="Logo"
@@ -57,7 +57,7 @@
                          x-transition:leave="transition ease-in duration-75"
                          x-transition:leave-start="transform opacity-100 scale-100 translate-y-0"
                          x-transition:leave-end="transform opacity-0 scale-95 -translate-y-2"
-                         class="absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col"
+                         class="absolute right-0 mt-3 w-52 bg-white rounded shadow-2xl overflow-hidden border border-gray-100 flex flex-col"
                          x-cloak>
                         <a href="{{ route('ppdb.register') }}" wire:navigate class="px-5 py-3.5 text-sm font-bold text-gray-800 hover:bg-emerald-50 hover:text-emerald-700 transition flex items-center gap-3 border-b border-gray-50 {{ request()->routeIs('ppdb.register') ? 'bg-emerald-50 text-emerald-700' : '' }}">
                             <span class="text-xl"></span> Daftar Baru

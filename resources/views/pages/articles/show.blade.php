@@ -50,7 +50,7 @@
 
         {{-- Gambar Cover --}}
         @if($article->cover_image)
-            <div class="rounded-3xl overflow-hidden mb-10 shadow-lg">
+            <div class="rounded overflow-hidden mb-10 shadow-lg">
                 <img src="{{ $article->cover_image }}" 
                      alt="{{ $article->title }}" 
                      class="w-full h-auto object-cover"

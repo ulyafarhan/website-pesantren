@@ -10,7 +10,7 @@
     
     <div x-show="show" x-transition.opacity class="fixed inset-0 bg-emerald-950/70 backdrop-blur-sm" @click="show = false"></div>
 
-    <div x-show="show" x-transition.scale class="bg-white rounded-xl overflow-hidden shadow-2xl transform transition-all sm:w-full sm:max-w-2xl relative z-10">
+    <div x-show="show" x-transition.scale class="bg-white rounded overflow-hidden shadow-2xl transform transition-all sm:w-full sm:max-w-2xl relative z-10">
         <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
             <h3 class="text-xl font-extrabold text-gray-900">{{ $title }}</h3>
             <button @click="show = false" class="text-gray-400 hover:text-red-500 transition">

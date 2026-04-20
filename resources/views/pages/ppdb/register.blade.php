@@ -11,7 +11,7 @@
             @csrf
 
             {{-- SEKSI 1: IDENTITAS INTI --}}
-            <section class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+            <section class="bg-white p-8 rounded border border-slate-200 shadow-sm relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-1.5 h-full bg-emerald-600"></div>
                 <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                     <span class="bg-emerald-100 text-emerald-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">1</span>
@@ -61,7 +61,7 @@
 
             {{-- SEKSI 2: DATA DINAMIS (Berdasarkan Schema Database) --}}
             @if($period->form_schema)
-            <section class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+            <section class="bg-white p-8 rounded border border-slate-200 shadow-sm relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-1.5 h-full bg-amber-500"></div>
                 <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                     <span class="bg-amber-100 text-amber-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">2</span>
@@ -88,7 +88,7 @@
 
             {{-- SEKSI 3: UPLOAD DOKUMEN --}}
             @if($period->document_schema)
-            <section class="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm relative overflow-hidden">
+            <section class="bg-white p-8 rounded border border-slate-200 shadow-sm relative overflow-hidden">
                 <div class="absolute top-0 left-0 w-1.5 h-full bg-blue-500"></div>
                 <h2 class="text-xl font-bold text-gray-800 mb-6 flex items-center gap-2">
                     <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center text-sm">3</span>
@@ -97,7 +97,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     @foreach($period->document_schema as $doc)
-                        <div class="p-4 rounded-2xl border border-dashed border-slate-300 hover:border-emerald-400 transition-colors">
+                        <div class="p-4 rounded border border-dashed border-slate-300 hover:border-emerald-400 transition-colors">
                             <x-forms.label :for="'docs.'.$doc['document_key']" class="mb-3 block font-bold">
                                 {{ $doc['label'] }} {!! $doc['is_required'] ? '<span class="text-red-500">*</span>' : '' !!}
                             </x-forms.label>
@@ -111,7 +111,7 @@
 
             {{-- Tombol Submit --}}
             <div class="flex flex-col items-center gap-4 pt-6">
-                <button type="submit" class="w-full md:w-auto px-12 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-2xl shadow-xl shadow-emerald-200 transition-all transform hover:-translate-y-1 active:scale-95">
+                <button type="submit" class="w-full md:w-auto px-12 py-4 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded shadow-xl shadow-emerald-200 transition-all transform hover:-translate-y-1 active:scale-95">
                     KIRIM PENDAFTARAN SEKARANG
                 </button>
                 <p class="text-xs text-gray-400 text-center">Dengan menekan tombol di atas, Anda menyatakan bahwa data yang diisi adalah benar dan dapat dipertanggungjawabkan.</p>

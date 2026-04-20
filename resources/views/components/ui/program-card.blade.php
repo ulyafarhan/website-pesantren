@@ -1,6 +1,6 @@
 @props(['program'])
 
-<div class="relative flex flex-col h-full bg-white shadow-sm border border-slate-200 rounded-lg w-full transition-all duration-300 hover:shadow-md hover:-translate-y-1">
+<div class="relative flex flex-col h-full bg-white shadow-sm border border-slate-200 rounded w-full transition-all duration-300 hover:shadow-md hover:-translate-y-1">
     <div class="mx-3 mb-0 border-b border-slate-200 pt-3 pb-2 px-1 flex justify-between items-center">
         <span class="text-sm text-emerald-600 font-medium">
             Program Pendidikan

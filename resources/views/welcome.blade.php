@@ -70,8 +70,8 @@
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             @foreach($programs->take(4) as $program)
-            <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 group flex flex-col h-full">
-                <div class="text-emerald-600 mb-6 bg-emerald-50 w-14 h-14 flex items-center justify-center rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition">
+            <div class="bg-white p-8 rounded shadow-sm border border-gray-100 hover:shadow-xl hover:-translate-y-1 transition duration-300 group flex flex-col h-full">
+                <div class="text-emerald-600 mb-6 bg-emerald-50 w-14 h-14 flex items-center justify-center rounded group-hover:bg-emerald-600 group-hover:text-white transition">
                     <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 </div>
                 <h3 class="text-xl font-bold text-gray-900 mb-3">{{ $program->name }}</h3>
@@ -97,14 +97,14 @@
                 </p>
             </div>
             <div class="w-full lg:w-1/2 relative">
-                <div class="absolute -top-4 -left-4 w-full h-full bg-emerald-100 rounded-xl -z-10"></div>
-                <img src="{{ asset('images/about.jpg') }}" loading="lazy" alt="Tentang Kami" class="rounded-xl shadow-lg w-full object-cover h-[400px]">
+                <div class="absolute -top-4 -left-4 w-full h-full bg-emerald-100 rounded -z-10"></div>
+                <img src="{{ asset('images/about.jpg') }}" loading="lazy" alt="Tentang Kami" class="rounded shadow-lg w-full object-cover h-[400px]">
             </div>
         </div>
     </section>
 
     <section class="max-w-7xl mx-auto px-6 py-12">
-        <div class="bg-emerald-800 rounded-xl p-10 lg:p-14 flex flex-col lg:flex-row justify-between items-center text-white shadow-xl relative overflow-hidden">
+        <div class="bg-emerald-800 rounded p-10 lg:p-14 flex flex-col lg:flex-row justify-between items-center text-white shadow-xl relative overflow-hidden">
             <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
             
             <div class="mb-10 lg:mb-0 w-full lg:w-1/3 relative z-10 text-center lg:text-left">
@@ -137,7 +137,7 @@
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 @foreach($articles as $article)
-                    <div class="bg-gray-50 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col">
+                    <div class="bg-gray-50 rounded overflow-hidden shadow-sm hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col">
                         <img 
                             src="{{ asset($article->cover_image) }}"
                             alt="{{ $article->title }}" 
@@ -163,7 +163,7 @@
 
     <section id="projects" class="py-24 px-6 max-w-7xl mx-auto">
         <div class="flex flex-col lg:flex-row gap-12 items-center">
-            <div class="w-full lg:w-1/3 order-2 lg:order-1 bg-emerald-50 p-10 rounded-xl border border-emerald-100">
+            <div class="w-full lg:w-1/3 order-2 lg:order-1 bg-emerald-50 p-10 rounded border border-emerald-100">
                 <p class="text-emerald-600 font-bold uppercase tracking-widest text-xs mb-3">GALERI KEGIATAN</p>
                 <h2 class="text-3xl font-extrabold text-gray-900 mb-6 leading-tight">Puncak Kreasi <br><span class="text-emerald-600">Lingkungan Kami</span></h2>
                 <p class="text-gray-600 text-sm mb-8 leading-relaxed">
@@ -174,7 +174,7 @@
             
             <div class="w-full lg:w-2/3 order-1 lg:order-2 grid grid-cols-2 md:grid-cols-3 gap-4">
                 @foreach($galleries->take(6) as $index => $gallery)
-                    <div class="rounded-xl overflow-hidden h-40 md:h-48 shadow-sm">
+                    <div class="rounded overflow-hidden h-40 md:h-48 shadow-sm">
                         <img src="{{ asset('storage/' . $gallery->image_url) }}" alt="{{ $gallery->title }}" lazy="loading" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';" class="w-full h-full object-cover hover:scale-110 transition duration-500">
                     </div>
                 @endforeach

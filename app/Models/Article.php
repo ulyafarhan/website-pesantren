@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 
 class Article extends Model
 {
@@ -29,13 +28,17 @@ class Article extends Model
     ];
 
     protected $casts = [
-        'is_published' => 'boolean',
-        'published_at' => 'datetime',
+        'is_published'  => 'boolean',
+        'published_at'  => 'datetime',
+        'created_at'    => 'datetime',
+        'updated_at'    => 'datetime',
     ];
 
+    // ─── Scopes ────────────────────────────────────────────────────────────────
+
     /**
-     * Scope: Menampilkan artikel yang sudah dipublikasikan saja.
-     * Digunakan di Controller: Article::published()->get();
+     * Hanya artikel yang sudah dipublikasikan dan sudah lewat jadwal tayangnya.
+     * Penggunaan: Article::published()->latest('published_at')->get();
      */
     public function scopePublished(Builder $query): void
     {
@@ -44,60 +47,70 @@ class Article extends Model
     }
 
     /**
-     * Relationship: Penulis Artikel.
+     * Untuk listing publik — select kolom minimum, tidak perlu 'content' yang berat.
+     * Penggunaan: Article::forList()->published()->paginate(9);
      */
+    public function scopeForList(Builder $query): void
+    {
+        $query->select([
+            'id', 'title', 'slug', 'cover_image',
+            'excerpt', 'published_at', 'author_id',
+        ]);
+    }
+
+    // ─── Relationships ─────────────────────────────────────────────────────────
+
     public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'author_id');
     }
 
+    // ─── Accessors ─────────────────────────────────────────────────────────────
+
     /**
-     * Perbaikan SEO: Otomatis memotong excerpt jika kosong.
-     * Menggunakan Property Hooks / Accessor standar.
+     * Auto-generate excerpt dari content jika excerpt kosong.
+     * ->shouldCache() memastikan tidak recompute berkali-kali dalam satu request.
      */
     protected function excerpt(): Attribute
     {
         return Attribute::make(
-            get: fn (?string $value) => $value ?? Str::limit(strip_tags((string) $this->content), 160),
-        );
+            get: fn(?string $value) => $value
+                ?? Str::limit(strip_tags((string) ($this->attributes['content'] ?? '')), 160),
+        )->shouldCache();
     }
 
     /**
-     * Perbaikan Keamanan: Memastikan slug selalu valid URL.
+     * Slug selalu di-slugify saat diset — mencegah karakter aneh masuk DB.
      */
     protected function slug(): Attribute
     {
         return Attribute::make(
-            set: fn (string $value) => Str::slug($value),
+            set: fn(string $value) => Str::slug($value),
         );
     }
 
     /**
-     * Helper: Mendapatkan URL gambar cover dengan fallback.
+     * cover_image mengembalikan URL lengkap atau null.
+     * Fallback (placeholder) ditangani di Blade via onerror — bukan di sini.
+     * ->shouldCache() mencegah asset() dipanggil berulang pada collection besar.
      */
-    public function getImageUrl(): string
-    {
-        if (! $this->cover_image) {
-            return asset('images/default-article.jpg');
-        }
-
-        return asset('storage/' . $this->cover_image);
-    }
-
     protected function coverImage(): Attribute
     {
         return Attribute::make(
-            get: function (?string $value) {
-                // Jangan lakukan Storage::disk()->exists() di production, 
-                // ini memakan I/O Disk yang mahal dan membuat rendering lambat pada t3.micro.
-                // Jika URL patah, biarkan browser menanganinya via event onerror di frontend.
-                
-                if (! $value) {
-                    return 'https://placehold.co/600x400?text=No+Image';
-                }
+            get: fn(?string $value) => $value
+                ? asset('storage/' . $value)
+                : null,
+        )->shouldCache();
+    }
 
-                return asset('storage/' . $value);
-            }
-        );
+    // ─── Helpers ───────────────────────────────────────────────────────────────
+
+    /**
+     * Helper publik untuk mendapatkan URL cover dengan fallback default.
+     * Dipakai di Blade: $article->getImageUrl()
+     */
+    public function getImageUrl(string $fallback = '/images/default-article.jpg'): string
+    {
+        return $this->cover_image ?? asset($fallback);
     }
 }

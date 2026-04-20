@@ -65,6 +65,10 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ]);
+            ])
+            ->spa()
+            ->globalSearch(false)
+            ->databaseTransactions()
+            ->maxContentWidth('full');
     }
 }

@@ -30,6 +30,7 @@ class PublicController extends Controller
         });
     }
 
+    /*
     public function index(): View
     {
         $settings = $this->getSettings();
@@ -72,6 +73,59 @@ class PublicController extends Controller
         return view('pages.home.index', compact(
             'articles', 'facilities', 'galleries', 'programs', 'testimonials', 'settings'
         ));
+    } 
+    */
+
+    public function index(): View
+    {
+        // CATATAN: $settings TIDAK PERLU DIPANGGIL DI SINI.
+        // View::composer di AppServiceProvider sudah otomatis menyuntikkan 
+        // variabel $settings ke seluruh file blade publik.
+
+        // 1. Artikel (Untuk Sidebar Kanan - Tampil 5 Terbaru)
+        $articles = Cache::rememberForever('home_articles_v3', fn () =>
+            Article::select('id', 'title', 'slug', 'cover_image', 'published_at', 'excerpt')
+                // Hapus with('author') jika di beranda (sidebar) tidak menampilkan nama penulis. Menghemat memori!
+                ->where('is_published', true)
+                ->latest('published_at')
+                ->limit(5)
+                ->get()
+        );
+            
+        // 2. Fasilitas (Jika digunakan di section stats/fasilitas)
+        $facilities = Cache::rememberForever('home_facilities_v2', fn () => 
+            Facility::select('id', 'name', 'image_url', 'description')
+                ->latest()
+                ->limit(4)
+                ->get()
+        );
+        
+        // 3. Galeri (Untuk Grid Galeri - Tampil 6 Foto)
+        $galleries = Cache::rememberForever('home_galleries_v2', fn () =>
+            Gallery::select('id', 'title', 'image_url', 'description')
+                ->latest()
+                ->limit(6)
+                ->get()
+        );
+            
+        // 4. Program Kelas (Tampil Semua yang Aktif)
+        $programs = Cache::rememberForever('home_programs_v2', fn () =>
+            ClassProgram::select('id', 'name', 'description')
+                ->get()
+        );
+        
+        // 5. Testimonial (Tampil 3 Terbaru)
+        $testimonials = Cache::rememberForever('home_testimonials_v2', fn () =>
+            Testimonial::select('id', 'name', 'role', 'message')
+                ->where('is_active', true)
+                ->latest()
+                ->limit(3)
+                ->get()
+        );
+
+        return view('pages.home.index', compact(
+            'articles', 'facilities', 'galleries', 'programs', 'testimonials'
+        ));
     }
 
     public function about(): View
@@ -96,13 +150,11 @@ class PublicController extends Controller
     {
         $settings = $this->getSettings();
 
-        $article = Cache::remember("article_{$slug}", now()->addHours(1), function () use ($slug) {
-            return Article::with('author:id,name')
-                ->select('id', 'title', 'slug', 'cover_image', 'content', 'published_at', 'author_id')
-                ->where('slug', $slug)
-                ->where('is_published', true)
-                ->first();
-        });
+        $article = Article::with('author:id,name') 
+            ->select('id', 'title', 'slug', 'content', 'cover_image', 'published_at', 'author_id', 'updated_at') // <--- TAMBAHKAN updated_at DI SINI
+            ->where('slug', $slug)
+            ->where('is_published', true)
+            ->firstOrFail();
         
         if (!$article) {
             throw new NotFoundHttpException();
@@ -126,7 +178,7 @@ class PublicController extends Controller
     {
         $settings = $this->getSettings();
         
-        $galleries = Gallery::select('id', 'title', 'image_url')
+        $galleries = Gallery::select('id', 'title', 'image_url', 'description')
             ->latest()
             ->simplePaginate(12);
         

@@ -8,7 +8,7 @@
 
             <div class="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
                 @foreach($testimonials as $testimonial)
-                    <div class="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col h-full">
+                    <div class="bg-white p-8 rounded shadow-sm border border-gray-100 flex flex-col h-full">
                         <div class="flex items-center mb-6">
                             {{-- Gunakan UI Avatars sebagai fallback jika avatar kosong di database --}}
                             <img class="h-12 w-12 rounded-full object-cover border-2 border-emerald-100" 

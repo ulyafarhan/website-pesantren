@@ -14,7 +14,7 @@
         </div>
         <div class="w-full lg:w-1/2 relative">
             <img src="https://images.unsplash.com/photo-1577896851231-70ef18881754?auto=format&fit=crop&w=800&q=80" alt="Tentang Kami" 
-                class="rounded-xl shadow-lg w-full object-cover h-[400px]">
+                class="rounded shadow-lg w-full object-cover h-[400px]">
         </div>
     </div>
 </section>
