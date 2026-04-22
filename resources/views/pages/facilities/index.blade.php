@@ -9,7 +9,7 @@
             <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 @foreach($facilities as $facility)
                     <div class="bg-gray-50 rounded overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                        <img class="h-56 w-full object-cover" src="{{ asset('storage/' . $facility->image) }}" alt="{{ $facility->name }}" 
+                        <img class="h-56 w-full object-cover" src="{{ $facility->image_url }}" alt="{{ $facility->name }}" 
                             onerror="this.onerror=null; this.src='https://placehold.co/600x400?text=Gambar+Tidak+Ada';">
                         <div class="p-6">
                             <h3 class="text-xl font-bold text-gray-900">{{ $facility->name }}</h3>

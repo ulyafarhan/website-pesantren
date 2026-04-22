@@ -17,7 +17,7 @@
             @foreach($galleries->take(4) as $gallery)
                 <div class="group relative flex h-60 w-full rounded shadow-md overflow-hidden">
                     <div class="h-full w-full transition duration-300 ease-in-out">
-                        <img src="{{ asset('storage/' . $gallery->image_url) }}" 
+                        <img src="{{ $gallery->image_url }}" 
                              alt="{{ $gallery->title }}" 
                              onerror="this.src='https://placehold.co/600x400?text=Gambar+Tidak+Ada';" 
                              class="h-full w-full object-cover transition duration-500 group-hover:scale-110">

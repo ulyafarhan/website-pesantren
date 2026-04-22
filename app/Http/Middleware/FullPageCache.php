@@ -26,7 +26,8 @@ class FullPageCache
             return $response;
         }
 
-        $response->headers->set('Cache-Control', "public, max-age={$ttl}");
+        $response->headers->set('Cache-Control', "public, max-age=300, s-maxage={$ttl}, stale-while-revalidate=60");
+        $response->headers->remove('Pragma');
 
         return $response;
     }

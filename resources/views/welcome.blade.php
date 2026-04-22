@@ -139,7 +139,7 @@
                 @foreach($articles as $article)
                     <div class="bg-gray-50 rounded overflow-hidden shadow-sm hover:shadow-lg transition duration-300 border border-gray-100 flex flex-col">
                         <img 
-                            src="{{ asset($article->cover_image) }}"
+                            src="{{ $article->cover_image }}"
                             alt="{{ $article->title }}" 
                             loading="lazy"
                             onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1585828068970-8bf19edbbac2?auto=format&fit=crop&w=600&q=80';"
@@ -175,7 +175,7 @@
             <div class="w-full lg:w-2/3 order-1 lg:order-2 grid grid-cols-2 md:grid-cols-3 gap-4">
                 @foreach($galleries->take(6) as $index => $gallery)
                     <div class="rounded overflow-hidden h-40 md:h-48 shadow-sm">
-                        <img src="{{ asset('storage/' . $gallery->image_url) }}" alt="{{ $gallery->title }}" lazy="loading" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';" class="w-full h-full object-cover hover:scale-110 transition duration-500">
+                        <img src="{{ $gallery->image_url }}" alt="{{ $gallery->title }}" lazy="loading" onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80';" class="w-full h-full object-cover hover:scale-110 transition duration-500">
                     </div>
                 @endforeach
             </div>

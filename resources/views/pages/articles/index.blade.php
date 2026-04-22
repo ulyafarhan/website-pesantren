@@ -12,7 +12,7 @@
             @foreach($articles as $article)
                 <x-ui.card class="flex flex-col h-full group">
                     <div class="overflow-hidden h-56 relative">
-                        <img src="{{ asset($article->cover_image) }}" loading="lazy" alt="{{ $article->title }}" 
+                        <img src="{{ $article->cover_image }}" loading="lazy" alt="{{ $article->title }}" 
                              onerror="this.src='https://images.unsplash.com/photo-1585828068970-8bf19edbbac2?w=600&q=80';"
                              class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
                         <div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-emerald-700 shadow-sm">

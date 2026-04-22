@@ -12,7 +12,7 @@
                 <div class="group relative m-0 flex h-72 w-full rounded shadow-xl transition duration-300 ease-in-out hover:scale-105 hover:shadow-2xl hover:shadow-emerald-600/5 overflow-hidden">
                     {{-- Container Gambar --}}
                     <div class="z-10 h-full w-full overflow-hidden rounded border border-gray-200 opacity-90 transition duration-300 ease-in-out group-hover:opacity-100 white:border-white-700">
-                        <img src="{{ asset('storage/' . $gallery->image_url) }}" 
+                        <img src="{{ $gallery->image_url }}" 
                              class="block h-full w-full scale-100 transform object-cover object-center transition duration-500 group-hover:scale-110" 
                              alt="{{ $gallery->title }}"
                              onerror="this.src='https://placehold.co/600x400?text=Gambar+Tidak+Ada';" />
